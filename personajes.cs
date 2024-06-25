@@ -1,6 +1,8 @@
+using APIS;
+
 namespace Personajes_Y_Estadisticas
 {
-    public enum Tipo
+    public enum Tipo //enum del tipo de personaje 
     {
         KAMIKAZE = 0,
         MEDICO = 1,
@@ -9,27 +11,25 @@ namespace Personajes_Y_Estadisticas
     }
     public class Personaje
     {
-        // private Datos? datos;
-        // private Caracteristicas? caracteristicas;
-        private Caracteristicas? caracteristicas; 
-        private Datos? datos;
+        private Caracteristicas caracteristicas; 
+        private Datos datos;
 
         public Datos Datos { get => datos; set => datos = value; }
-        public Caracteristicas? Caracteristicas { get => caracteristicas; set => caracteristicas = value; }
+        public Caracteristicas Caracteristicas { get => caracteristicas; set => caracteristicas = value; }
     }
 
     public class Datos
     {
         private Tipo tipo;
-        private string? nombre;
-        public Datos(Tipo tipo, string? nombre)
+        private string nombre;
+        public Datos(Tipo tipo, string nombre)
         {
             this.tipo = tipo;
             this.nombre = nombre;
         }
 
         public Tipo Tipo { get => tipo; }
-        public string? Nombre { get => nombre;}
+        public string Nombre { get => nombre;}
         // private frase celebre con API?
     }
 
@@ -46,19 +46,26 @@ namespace Personajes_Y_Estadisticas
 
     public class OperacionPersonajes
     {
-        public Personaje FabricaDePersonajes(int numeroPersonaje)
+        public async Task <Personaje> FabricaDePersonajes(int numeroPersonaje)
         {
-            Personaje personaje = new Personaje();
-            personaje.Caracteristicas = new Caracteristicas();
             Random randomTipo = new Random();
             Random randomAtaque_Armadura= new Random();
-            // Random randomSalud = new Random();
-            // Random randomNombre = new Random();
-            // personaje.Datos = new Datos(Tipo.KAMIKAZE, $"nombre_API_{i}");
-            personaje.Datos = new Datos((Tipo)randomTipo.Next(0,4), $"nombre_API_{numeroPersonaje+1}");
+            Random randomNombre = new Random();
+            NombresPersonajes listadoNombres = await API.Deserializar(); //obtenemos el listado de los nombres
+
+            Personaje personaje = new Personaje //esta es una forma simplificada de instancias clases dentro de otra(?)
+            {
+                Caracteristicas = new Caracteristicas(),
+                Datos = new Datos((Tipo)randomTipo.Next(0, 4), listadoNombres.Names[randomNombre.Next(0,50)])
+            };
+
             personaje.Caracteristicas.Armadura = randomAtaque_Armadura.Next(1,10);
             personaje.Caracteristicas.Ataque = randomAtaque_Armadura.Next(1,10);
             personaje.Caracteristicas.Salud = 100;
+            // Random randomSalud = new Random();
+            // Random randomNombre = new Random();
+            // personaje.Datos = new Datos(Tipo.KAMIKAZE, $"nombre_API_{i}");
+            API.GuardarEnJson(listadoNombres);
 
             return personaje;
         }

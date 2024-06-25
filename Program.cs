@@ -1,23 +1,31 @@
-﻿using System.Collections;
-using System.Data;
+﻿
 using Personajes_Y_Estadisticas;
-OperacionPersonajes operar = new OperacionPersonajes();
+using APIS;
+
+//CONSTANTES
 const int CANTIDAD_PERSONAJES_CREAR = 10;
+
+//INSTANCIACIONES
+OperacionPersonajes operar = new OperacionPersonajes();
 Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
+
 System.Console.WriteLine();
 System.Console.WriteLine();
+
 Console.WriteLine("---------------Bienvenido al juego Worms World Sharp---------------");
 for (int i = 0; i < CANTIDAD_PERSONAJES_CREAR; i++)
 {
-    personajes[i] = operar.FabricaDePersonajes(i);
+    personajes[i] = await operar.FabricaDePersonajes(i);
 }
 
 Console.ForegroundColor = ConsoleColor.Red;
 System.Console.WriteLine();
 System.Console.WriteLine();
-System.Console.WriteLine("----------PERSONAJES----------");
+System.Console.WriteLine("----------GENERANDO PERSONAJES----------");
 System.Console.WriteLine();
 System.Console.WriteLine();
+
+//MUESTRA PERSONAJES PARA CORROBORAR
 int k=1;
 foreach (Personaje personaje in personajes)
 {
@@ -36,3 +44,4 @@ foreach (Personaje personaje in personajes)
     System.Console.WriteLine();
 }
 Console.ForegroundColor = ConsoleColor.White;
+// Console.ReadKey();
