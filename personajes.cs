@@ -46,27 +46,22 @@ namespace Personajes_Y_Estadisticas
 
     public class OperacionPersonajes
     {
-        public async Task <Personaje> FabricaDePersonajes(int numeroPersonaje)
+        public Personaje FabricaDePersonajes(List<string> listadoNombres) 
         {
             Random randomTipo = new Random();
             Random randomAtaque_Armadura= new Random();
             Random randomNombre = new Random();
-            NombresPersonajes listadoNombres = await API.Deserializar(); //obtenemos el listado de los nombres
 
             Personaje personaje = new Personaje //esta es una forma simplificada de instancias clases dentro de otra(?)
             {
                 Caracteristicas = new Caracteristicas(),
-                Datos = new Datos((Tipo)randomTipo.Next(0, 4), listadoNombres.Names[randomNombre.Next(0,50)])
+                Datos = new Datos((Tipo)randomTipo.Next(0, 4), listadoNombres[randomNombre.Next(0,50)])
             };
 
             personaje.Caracteristicas.Armadura = randomAtaque_Armadura.Next(1,10);
             personaje.Caracteristicas.Ataque = randomAtaque_Armadura.Next(1,10);
             personaje.Caracteristicas.Salud = 100;
-            // Random randomSalud = new Random();
-            // Random randomNombre = new Random();
-            // personaje.Datos = new Datos(Tipo.KAMIKAZE, $"nombre_API_{i}");
-            API.GuardarEnJson(listadoNombres);
-
+            // API.GuardarEnJson(listadoNombres);
             return personaje;
         }
     }
