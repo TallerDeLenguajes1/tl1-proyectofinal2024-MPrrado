@@ -14,8 +14,14 @@ namespace Personajes_Y_Estadisticas
         private Caracteristicas caracteristicas; 
         private Datos datos;
 
-        public Datos Datos { get => datos; set => datos = value; }
-        public Caracteristicas Caracteristicas { get => caracteristicas; set => caracteristicas = value; }
+        public Personaje(Tipo tipo, string nombre, int ataque, int armadura, int salud)
+        {
+            caracteristicas = new Caracteristicas(ataque, armadura, salud);
+            datos = new Datos(tipo, nombre);
+        }
+
+        public Caracteristicas Caracteristicas { get => caracteristicas;}
+        public Datos Datos { get => datos;}
     }
 
     public class Datos
@@ -39,29 +45,36 @@ namespace Personajes_Y_Estadisticas
         private int armadura;
         private int salud;
 
-        public int Ataque { get => ataque; set => ataque = value; }
-        public int Armadura { get => armadura; set => armadura = value; }
-        public int Salud { get => salud; set => salud = value; }
+        public Caracteristicas(int ataque, int armadura, int salud)
+        {
+            this.ataque = ataque;
+            this.armadura = armadura;
+            this.salud = salud;
+        }
+
+        public int Ataque { get => ataque;}
+        public int Armadura { get => armadura;}
+        public int Salud { get => salud;}
     }
 
-    public class OperacionPersonajes
+    public class FabricaDePersonajes
     {
-        public Personaje FabricaDePersonajes(List<string> listadoNombres) 
+        private readonly List<string> listadoNombres;
+
+        public FabricaDePersonajes(List<string> listadoNombres)
         {
-            Random randomTipo = new Random();
-            Random randomAtaque_Armadura= new Random();
-            Random randomNombre = new Random();
+            this.listadoNombres = listadoNombres;
+        }
 
-            Personaje personaje = new Personaje //esta es una forma simplificada de instancias clases dentro de otra(?)
-            {
-                Caracteristicas = new Caracteristicas(),
-                Datos = new Datos((Tipo)randomTipo.Next(0, 4), listadoNombres[randomNombre.Next(0,50)])
-            };
-
-            personaje.Caracteristicas.Armadura = randomAtaque_Armadura.Next(1,10);
-            personaje.Caracteristicas.Ataque = randomAtaque_Armadura.Next(1,10);
-            personaje.Caracteristicas.Salud = 100;
-            // API.GuardarEnJson(listadoNombres);
+        public Personaje CrearPersonaje() 
+        {
+            Random randomCaracteristicas = new Random();
+            int ataque = randomCaracteristicas.Next(1,10);
+            int armadura = randomCaracteristicas.Next(1,10);
+            int salud = 100;
+            Tipo tipo = (Tipo)randomCaracteristicas.Next(0,3);
+            string nombre = listadoNombres[randomCaracteristicas.Next(0,50)];
+            Personaje personaje = new Personaje(tipo, nombre, ataque, armadura, salud);
             return personaje;
         }
     }

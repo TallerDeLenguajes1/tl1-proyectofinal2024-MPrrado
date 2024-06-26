@@ -38,7 +38,7 @@ namespace APIS
 
             if (!File.Exists(archivoJson))
             {
-                using (File.CreateText(archivoJson)) { } // Crear el archivo vacío
+                using (File.Create(archivoJson)) { } // Crear el archivo vacío
             }
 
             string textoAPI = JsonSerializer.Serialize(listadoAPI);
