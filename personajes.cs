@@ -73,7 +73,7 @@ namespace Personajes_Y_Estadisticas
             int armadura = randomCaracteristicas.Next(1,10);
             int salud = 100;
             Tipo tipo = (Tipo)randomCaracteristicas.Next(0,3);
-            string nombre = listadoNombres[randomCaracteristicas.Next(0,50)];
+            string nombre = listadoNombres[randomCaracteristicas.Next(0,10)];
             Personaje personaje = new Personaje(tipo, nombre, ataque, armadura, salud);
             return personaje;
         }

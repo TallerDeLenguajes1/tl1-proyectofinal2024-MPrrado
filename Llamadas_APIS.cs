@@ -18,7 +18,7 @@ namespace APIS
         public static async Task<NombresPersonajes> Deserializar()
         {
             HttpClient client = new HttpClient();
-            var url = "https://muna.ironarachne.com/troll/?count=50&nameType=male";
+            var url = "https://names.ironarachne.com/race/dragonborn/male/10";
             HttpResponseMessage respuesta = await client.GetAsync(url);
             respuesta.EnsureSuccessStatusCode();
             string responseBody = await respuesta.Content.ReadAsStringAsync();
@@ -42,7 +42,6 @@ namespace APIS
             }
 
             string textoAPI = JsonSerializer.Serialize(listadoAPI);
-            // File.AppendAllText(archivoJson, textoAPI);
             File.WriteAllText(archivoJson, textoAPI); // Reemplazar el contenido existente
         }
     }
