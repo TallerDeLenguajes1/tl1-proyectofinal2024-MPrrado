@@ -3,7 +3,7 @@ namespace APIS
     using System.Text.Json.Serialization;
     using System.Text.Json;
 
-    public class NombresPersonajes 
+    public class NombresPersonajes
     {
         [JsonPropertyName("count")]
         public int Count { get; set; }

@@ -1,35 +1,34 @@
 ﻿
 using Personajes_Y_Estadisticas;
-using Text;
+using Gui;
 using APIS;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
+using System.Text;
 
 //CONSTANTES
 const int CANTIDAD_PERSONAJES_CREAR = 10;
 
+Console.OutputEncoding = Encoding.Unicode;  // For UTF-16 show chinesse chars
 //INSTANCIACIONES
 NombresPersonajes listaNombresPersonajes = new NombresPersonajes();
 // listaNombresPersonajes = await API.Deserializar(); //obtengo de la API mi objeto con la lista de nombres
-// FabricaDePersonajes FabricaDePersonajes = new FabricaDePersonajes(listaNombresPersonajes.Names); // instanceo la clase de fabrica para poder operar
-// Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
+FabricaDePersonajes FabricaDePersonajes = new FabricaDePersonajes(listaNombresPersonajes.Names); // instanceo la clase de fabrica para poder operar
+Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
 
 //TITULO
 Console.Clear();
-Console.ForegroundColor = ConsoleColor.Blue;
-System.Console.WriteLine(Textos.TituloPrincipal);
-System.Console.WriteLine();
-System.Console.WriteLine();
-Console.BackgroundColor = ConsoleColor.Black;
+Textos.ImprimirTitulos(Gui.Textos.TituloPrincipal);
+Menu.MenuPrincipal();
+Textos.ImprimirTitulos(Gui.Textos.GenerandoPersonajes);
 
 //GENERACION DE PERSONAJES
-System.Console.WriteLine();
-System.Console.WriteLine();
-Console.ForegroundColor = ConsoleColor.Red;
-Console.WriteLine(Textos.GenerandoPersonajes);
-System.Console.WriteLine();
-System.Console.WriteLine();
-Textos.CentrarTexto();
+// System.Console.WriteLine();
+// System.Console.WriteLine();
+// Console.ForegroundColor = ConsoleColor.Red;
+// Console.WriteLine(Textos.GenerandoPersonajes);
+// System.Console.WriteLine();
+// System.Console.WriteLine();
 
 // for (int i = 0; i < CANTIDAD_PERSONAJES_CREAR; i++)
 // {

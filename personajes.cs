@@ -11,7 +11,7 @@ namespace Personajes_Y_Estadisticas
     }
     public class Personaje
     {
-        private Caracteristicas caracteristicas; 
+        private Caracteristicas caracteristicas;
         private Datos datos;
 
         public Personaje(Tipo tipo, string nombre, int ataque, int armadura, int salud)
@@ -20,8 +20,8 @@ namespace Personajes_Y_Estadisticas
             datos = new Datos(tipo, nombre);
         }
 
-        public Caracteristicas Caracteristicas { get => caracteristicas;}
-        public Datos Datos { get => datos;}
+        public Caracteristicas Caracteristicas { get => caracteristicas; }
+        public Datos Datos { get => datos; }
     }
 
     public class Datos
@@ -35,7 +35,7 @@ namespace Personajes_Y_Estadisticas
         }
 
         public Tipo Tipo { get => tipo; }
-        public string Nombre { get => nombre;}
+        public string Nombre { get => nombre; }
         // private frase celebre con API?
     }
 
@@ -52,9 +52,9 @@ namespace Personajes_Y_Estadisticas
             this.salud = salud;
         }
 
-        public int Ataque { get => ataque;}
-        public int Armadura { get => armadura;}
-        public int Salud { get => salud;}
+        public int Ataque { get => ataque; }
+        public int Armadura { get => armadura; }
+        public int Salud { get => salud; }
     }
 
     public class FabricaDePersonajes
@@ -66,14 +66,14 @@ namespace Personajes_Y_Estadisticas
             this.listadoNombres = listadoNombres;
         }
 
-        public Personaje CrearPersonaje() 
+        public Personaje CrearPersonaje()
         {
             Random randomCaracteristicas = new Random();
-            int ataque = randomCaracteristicas.Next(1,10);
-            int armadura = randomCaracteristicas.Next(1,10);
+            int ataque = randomCaracteristicas.Next(1, 10);
+            int armadura = randomCaracteristicas.Next(1, 10);
             int salud = 100;
-            Tipo tipo = (Tipo)randomCaracteristicas.Next(0,3);
-            string nombre = listadoNombres[randomCaracteristicas.Next(0,10)];
+            Tipo tipo = (Tipo)randomCaracteristicas.Next(0, 3);
+            string nombre = listadoNombres[randomCaracteristicas.Next(0, 10)];
             Personaje personaje = new Personaje(tipo, nombre, ataque, armadura, salud);
             return personaje;
         }
