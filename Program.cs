@@ -5,6 +5,7 @@ using APIS;
 using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Text;
+using System.Runtime.CompilerServices;
 
 //CONSTANTES
 const int CANTIDAD_PERSONAJES_CREAR = 10;
@@ -16,11 +17,24 @@ NombresPersonajes listaNombresPersonajes = new NombresPersonajes();
 FabricaDePersonajes FabricaDePersonajes = new FabricaDePersonajes(listaNombresPersonajes.Names); // instanceo la clase de fabrica para poder operar
 Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
 
+var tituloMenuPrincipal = Textos.TituloPrincipal;
+string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "Continuar partida"};
+Menu menuPrincipal = new Menu(tituloMenuPrincipal, opcionesMenuPrincipal);
 //TITULO
 Console.Clear();
-Textos.ImprimirTitulos(Gui.Textos.TituloPrincipal);
-Menu.MenuPrincipal();
-Textos.ImprimirTitulos(Gui.Textos.GenerandoPersonajes);
+Console.WindowWidth = 200;
+menuPrincipal.Inicializar(12);
+// if(opcionElegida == 2)
+// {
+//     Console.Clear();
+//     Textos.ImprimirTitulos(Gui.Textos.GenerandoPersonajes);
+//     // foreach(string linea in ImagenesGameplay.Worms)
+//     // {
+//     //     System.Console.WriteLine(linea);
+//     // }
+//     Textos.TextoCentradoArray(ImagenesGameplay.Worms);
+    
+// }
 
 //GENERACION DE PERSONAJES
 // System.Console.WriteLine();
@@ -55,5 +69,6 @@ Textos.ImprimirTitulos(Gui.Textos.GenerandoPersonajes);
 // }
 // Console.ForegroundColor = ConsoleColor.White;
 // API.GuardarEnJson(listaNombresPersonajes);
-Console.ReadKey();
+System.Console.WriteLine("presiona enter para salir....");
+Console.ReadKey(true);
 
