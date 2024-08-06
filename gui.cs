@@ -77,22 +77,7 @@ namespace Gui
                             break;
                     }
         }
-
-        public static void ImprimirTitulos(string[] Texto)
-        {
-            Console.ForegroundColor = ConsoleColor.Red;
-            var anchoTerminal = Console.WindowWidth; //obtengo el ancho de la terminal
-            string tituloCentrado = ""; //creo mi variable la cual sera el texto centrado
-            foreach (string linea in Texto)
-            {
-                int padding = (anchoTerminal - linea.Length) / 2;
-                tituloCentrado += new string(' ', padding) + linea + Environment.NewLine; //Enviroment.NewLine remplaza el uso de \r y \n y permite compatibilidad con distintos sistemas operativos
-
-            }
-            System.Console.WriteLine(tituloCentrado);
-            System.Console.WriteLine();
-            Console.ForegroundColor = ConsoleColor.White;
-        }
+        
         public static void textoCentrado(string texto)
         {
             string textoCentrado; //creo mi variable la cual sera el texto centrado
@@ -141,7 +126,7 @@ namespace Gui
             opciones = opcionesMenu;
             indiceOpcion = 0;
         }
-        public void MostrarOpcionesStandar(int colorTitulo)
+        public void MostrarOpcionesStandar(int colorTitulo) //metodo para menu standar interactivo
         {
             Textos.seleccionarColorFuente(colorTitulo);
             Textos.TextoCentradoArray(tituloArray);
@@ -208,10 +193,10 @@ namespace Gui
             Textos.textoCentrado(titulo);
             Console.ResetColor();
             string decorador=" ";
-            int indiceOpcion;
+            int indiceOpcion = 0;
             for (int i = 0; i < opciones.Length; i++)
             {
-                indiceOpcion = i;
+                indiceOpcion++;
                 switch(opciones[i])
                 {
                     case "ATACAR":
@@ -224,7 +209,7 @@ namespace Gui
                         decorador = "💨";
                         break;
                 }
-                Textos.textoCentrado($"[{indiceOpcion++}]]{decorador} <<{opciones[i]}>>");
+                Textos.textoCentrado($"[{indiceOpcion}]]{decorador} <<{opciones[i]}>>");
             }
         }
 
