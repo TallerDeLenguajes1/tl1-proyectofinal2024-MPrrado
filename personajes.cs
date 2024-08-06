@@ -54,7 +54,7 @@ namespace Personajes_Y_Estadisticas
 
         public int Ataque { get => ataque; }
         public int Armadura { get => armadura; }
-        public int Salud { get => salud; }
+        public int Salud { get => salud; set => salud = value;}
     }
 
     public class FabricaDePersonajes
@@ -69,8 +69,8 @@ namespace Personajes_Y_Estadisticas
         public Personaje CrearPersonaje(int indiceNombre)
         {
             Random randomCaracteristicas = new Random();
-            int ataque = randomCaracteristicas.Next(1, 10);
-            int armadura = randomCaracteristicas.Next(1, 10);
+            int ataque = randomCaracteristicas.Next(5, 20);
+            int armadura = randomCaracteristicas.Next(10, 50);
             int salud = 100;
             Tipo tipo = (Tipo)randomCaracteristicas.Next(0, 3);
             string nombre = listadoNombres[indiceNombre];
