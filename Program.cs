@@ -40,6 +40,7 @@ if(opcionElegida == 1)
 }
 
 // API.GuardarEnJson(listaNombresPersonajes);
+Console.ResetColor();
 System.Console.WriteLine("presiona enter para salir....");
 Console.ReadKey(true);
 
