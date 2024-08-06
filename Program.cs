@@ -6,68 +6,39 @@ using System.ComponentModel.DataAnnotations;
 using System.Data;
 using System.Text;
 using System.Runtime.CompilerServices;
-
+using LogicaBatalla;
 //CONSTANTES
 const int CANTIDAD_PERSONAJES_CREAR = 10;
 
-Console.OutputEncoding = Encoding.Unicode;  // For UTF-16 show chinesse chars
+Console.OutputEncoding = Encoding.Unicode;  // para caracteres UTF-16 (caracteres especiales)
+
 //INSTANCIACIONES
 NombresPersonajes listaNombresPersonajes = new NombresPersonajes();
-// listaNombresPersonajes = await API.Deserializar(); //obtengo de la API mi objeto con la lista de nombres
+listaNombresPersonajes = await API.Deserializar(); //obtengo de la API mi objeto con la lista de nombres
 FabricaDePersonajes FabricaDePersonajes = new FabricaDePersonajes(listaNombresPersonajes.Names); // instanceo la clase de fabrica para poder operar
 Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
 
 var tituloMenuPrincipal = Textos.TituloPrincipal;
-string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "Continuar partida"};
+string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "CONTINUAR PARTIDA", "SALIR DEL JUEGO"};
 Menu menuPrincipal = new Menu(tituloMenuPrincipal, opcionesMenuPrincipal);
 //TITULO
 Console.Clear();
-Console.WindowWidth = 200;
-menuPrincipal.Inicializar(12);
-// if(opcionElegida == 2)
-// {
-//     Console.Clear();
-//     Textos.ImprimirTitulos(Gui.Textos.GenerandoPersonajes);
-//     // foreach(string linea in ImagenesGameplay.Worms)
-//     // {
-//     //     System.Console.WriteLine(linea);
-//     // }
-//     Textos.TextoCentradoArray(ImagenesGameplay.Worms);
-    
-// }
+int opcionElegida = menuPrincipal.Inicializar(12,0);
 
-//GENERACION DE PERSONAJES
-// System.Console.WriteLine();
-// System.Console.WriteLine();
-// Console.ForegroundColor = ConsoleColor.Red;
-// Console.WriteLine(Textos.GenerandoPersonajes);
-// System.Console.WriteLine();
-// System.Console.WriteLine();
 
-// for (int i = 0; i < CANTIDAD_PERSONAJES_CREAR; i++)
-// {
-//    personajes[i] = FabricaDePersonajes.CrearPersonaje();
-// }
 
-// // MUESTRA PERSONAJES PARA CORROBORAR
-// int k=1;
-// foreach (Personaje personaje in personajes)
-// {
-//     Console.ForegroundColor = ConsoleColor.Blue;
-//     System.Console.WriteLine($"----PERSONAJE [{k}]----");
-//     k++;
-//     Console.ForegroundColor = ConsoleColor.Green;
-//     System.Console.WriteLine($"\t---->{personaje.Datos.Nombre}----");
-//     System.Console.WriteLine($"\t---->{personaje.Datos.Tipo}----");
-//     Console.ForegroundColor = ConsoleColor.Yellow;
-//     System.Console.WriteLine($"\t----Caracteristicas----");
-//     System.Console.WriteLine($"\t---->Salud: {personaje.Caracteristicas.Salud}----");
-//     System.Console.WriteLine($"\t---->Armadura: {personaje.Caracteristicas.Armadura}----");
-//     System.Console.WriteLine($"\t---->Ataque: {personaje.Caracteristicas.Ataque}----");
-//     System.Console.WriteLine();
-//     System.Console.WriteLine();
-// }
-// Console.ForegroundColor = ConsoleColor.White;
+for (int i = 0; i < 10; i++)
+{
+   personajes[i] = FabricaDePersonajes.CrearPersonaje(i);
+}
+if(opcionElegida == 1)
+{
+    Console.Clear();
+    Personaje jugador1 = Batalla.SeleccionPersonaje(1, personajes, CANTIDAD_PERSONAJES_CREAR);
+    Personaje jugador2 = Batalla.SeleccionPersonaje(2, personajes, CANTIDAD_PERSONAJES_CREAR);
+    Batalla.Combate(jugador1,jugador2,0);
+}
+
 // API.GuardarEnJson(listaNombresPersonajes);
 System.Console.WriteLine("presiona enter para salir....");
 Console.ReadKey(true);

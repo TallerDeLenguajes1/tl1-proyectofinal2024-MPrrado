@@ -66,14 +66,14 @@ namespace Personajes_Y_Estadisticas
             this.listadoNombres = listadoNombres;
         }
 
-        public Personaje CrearPersonaje()
+        public Personaje CrearPersonaje(int indiceNombre)
         {
             Random randomCaracteristicas = new Random();
             int ataque = randomCaracteristicas.Next(1, 10);
             int armadura = randomCaracteristicas.Next(1, 10);
             int salud = 100;
             Tipo tipo = (Tipo)randomCaracteristicas.Next(0, 3);
-            string nombre = listadoNombres[randomCaracteristicas.Next(0, 10)];
+            string nombre = listadoNombres[indiceNombre];
             Personaje personaje = new Personaje(tipo, nombre, ataque, armadura, salud);
             return personaje;
         }

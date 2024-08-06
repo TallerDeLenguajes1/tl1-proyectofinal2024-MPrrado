@@ -71,7 +71,7 @@ namespace Gui
             opciones = opcionesMenu;
             indiceOpcion = 0;
         }
-        public void MostrarOpciones(int colorTitulo)
+        public void MostrarOpciones(int colorTitulo, int justificacionTexto)
         {
             
             switch (colorTitulo)
@@ -125,7 +125,16 @@ namespace Gui
                     Console.ForegroundColor = (ConsoleColor) colorTitulo;
                     break;
             }
-            Textos.TextoCentradoArray(titulo);
+            if(justificacionTexto == 0)
+            {
+                Textos.TextoCentradoArray(titulo);
+            }else if(justificacionTexto == 1)
+            {
+                foreach (string linea in titulo)
+                {
+                    System.Console.WriteLine(linea);
+                };
+            }
             Console.ResetColor();
             string decorador;
             for (int i = 0; i < opciones.Length; i++)
@@ -148,14 +157,14 @@ namespace Gui
             Console.ResetColor();
         }
 
-        public int Inicializar(int colorTitulo)
+        public int Inicializar(int colorTitulo, int justificacionTexto) //color del 0-15, justificacion: [0] centrado [1]: justify left
         {
             ConsoleKey tecla; //creamos nuestra variable del tipo ConsoleKey para poder almacenar y luego comparar con la tecla que se presiono
             Console.CursorVisible = false;
             do
             {
                 Console.Clear();
-                MostrarOpciones(colorTitulo); //mostramos el menu
+                MostrarOpciones(colorTitulo,justificacionTexto); //mostramos el menu
 
                 ConsoleKeyInfo teclaPresionada = Console.ReadKey(true); //leemos la tecla presionada
                 tecla = teclaPresionada.Key; //asiganmos a nuestra variable la tecla presionada
@@ -182,9 +191,14 @@ namespace Gui
         }
     }
 
-    public static class ImagenesGameplay
+    public class ImagenesGameplay
     {
-        private static string[] worms = [
+        private int nroJugador;
+        private string[] worms;
+        public ImagenesGameplay(int nroJugador)
+        {
+            this.nroJugador = nroJugador;
+            worms = [
             @"              ▓▓▓▓▓▓▓▓▓▓▓▓                                                      ▓▓▓▓▓▓▓▓▓▓▓▓          ",
             @"             ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓                                                  ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓         ",
             @"            ▓▓▒▒▒▒▒▓███▒▓██▓▓                                                ▓▓██▓▒███▓▒▒▒▒▒▓▓        ",
@@ -198,8 +212,11 @@ namespace Gui
             @"        ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓    ",
             @"      ▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓  ",
             @"     ▓▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓▓ ",
-            @"      ▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓▓                                                            ▓▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓  "
+            @"      ▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓▓                                                            ▓▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓  ",
+            @"OPCIONES COMBATE"
             ];
-        public static string[] Worms { get => worms; }
+        }
+        public int NroJugador { get => nroJugador; set => nroJugador = value; }
+        public string[] Worms { get => worms; set => worms = value; }
     }
 }
