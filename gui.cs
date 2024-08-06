@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.ComponentModel.Design;
 using System.Net.NetworkInformation;
 using System.Runtime.InteropServices;
 namespace Gui
@@ -22,6 +23,60 @@ namespace Gui
         ];
         public static string[] TituloPrincipal { get => tituloPrincipal; }
         public static string[] GenerandoPersonajes { get => generandoPersonajes; }
+        public static void seleccionarColorFuente(int color)
+        {
+            switch (color)
+                    {
+                        case 0:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 1:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 2:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 3:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 4:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 5:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 6:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 7:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 8:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 9:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 10:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 11:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 12:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 13:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 14:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                        case 15:
+                            Console.ForegroundColor = (ConsoleColor) color;
+                            break;
+                    }
+        }
 
         public static void ImprimirTitulos(string[] Texto)
         {
@@ -58,83 +113,38 @@ namespace Gui
             System.Console.WriteLine(textoCentrado);
             System.Console.WriteLine();
         }
+
+        public static void ImprimirTextoArray(string[] texto)
+        {
+            foreach(string linea in texto)
+            {
+                System.Console.WriteLine(linea);
+            }
+        }
     }
 
     public class Menu
     {
-        private string[] titulo;
+        private string[] tituloArray;
+        private string titulo;
         private string[] opciones;
         private int indiceOpcion;
         public Menu(string[] tituloMenu, string[] opcionesMenu)
+        {
+            tituloArray = tituloMenu;
+            opciones = opcionesMenu;
+            indiceOpcion = 0;
+        }
+        public Menu(string tituloMenu, string[] opcionesMenu)
         {
             titulo = tituloMenu;
             opciones = opcionesMenu;
             indiceOpcion = 0;
         }
-        public void MostrarOpciones(int colorTitulo, int justificacionTexto)
+        public void MostrarOpcionesStandar(int colorTitulo)
         {
-            
-            switch (colorTitulo)
-            {
-                case 0:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 1:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 2:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 3:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 4:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 5:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 6:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 7:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 8:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 9:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 10:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 11:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 12:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 13:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 14:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-                case 15:
-                    Console.ForegroundColor = (ConsoleColor) colorTitulo;
-                    break;
-            }
-            if(justificacionTexto == 0)
-            {
-                Textos.TextoCentradoArray(titulo);
-            }else if(justificacionTexto == 1)
-            {
-                foreach (string linea in titulo)
-                {
-                    System.Console.WriteLine(linea);
-                };
-            }
+            Textos.seleccionarColorFuente(colorTitulo);
+            Textos.TextoCentradoArray(tituloArray);
             Console.ResetColor();
             string decorador;
             for (int i = 0; i < opciones.Length; i++)
@@ -148,7 +158,6 @@ namespace Gui
                 else
                 {
                     decorador = " ";
-                    Console.BackgroundColor = ConsoleColor.Black;
                     Console.ForegroundColor = ConsoleColor.White;
                 }
                 Textos.textoCentrado($"{decorador} <<{opcionSeleccionada}>>");
@@ -157,14 +166,17 @@ namespace Gui
             Console.ResetColor();
         }
 
-        public int Inicializar(int colorTitulo, int justificacionTexto) //color del 0-15, justificacion: [0] centrado [1]: justify left
+        public int InicializarMenuStandar(int colorTitulo, int tipoMenu) //color del 0-15, justificacion: [0] centrado [1]: justify left
         {
             ConsoleKey tecla; //creamos nuestra variable del tipo ConsoleKey para poder almacenar y luego comparar con la tecla que se presiono
             Console.CursorVisible = false;
             do
             {
-                Console.Clear();
-                MostrarOpciones(colorTitulo,justificacionTexto); //mostramos el menu
+                if(tipoMenu == 0)
+                {
+                    Console.Clear();
+                }
+                MostrarOpcionesStandar(colorTitulo); //mostramos el menu
 
                 ConsoleKeyInfo teclaPresionada = Console.ReadKey(true); //leemos la tecla presionada
                 tecla = teclaPresionada.Key; //asiganmos a nuestra variable la tecla presionada
@@ -189,34 +201,76 @@ namespace Gui
             Console.CursorVisible = true;
             return indiceOpcion;
         }
+
+        public void MostrarOpcionesCombate(int colorTitulo)
+        {
+            Textos.seleccionarColorFuente(colorTitulo);
+            Textos.textoCentrado(titulo);
+            Console.ResetColor();
+            string decorador=" ";
+            int indiceOpcion;
+            for (int i = 0; i < opciones.Length; i++)
+            {
+                indiceOpcion = i;
+                switch(opciones[i])
+                {
+                    case "ATACAR":
+                        decorador = "⚔️";
+                        break;
+                    case "DEFENDER":
+                        decorador = "🛡️";
+                        break;
+                    case "HUIR":
+                        decorador = "💨";
+                        break;
+                }
+                Textos.textoCentrado($"[{indiceOpcion++}]]{decorador} <<{opciones[i]}>>");
+            }
+        }
+
+        public int InicializarMenuCombate(int colorTitulo)
+        {
+            bool sale = false;
+            int opcionElegida;
+            do
+            {
+                MostrarOpcionesCombate(colorTitulo);
+                System.Console.WriteLine("SELECCIONE SU ACCION: ");
+                bool parseo = int.TryParse(Console.ReadLine(), out opcionElegida);
+                if(!parseo || opcionElegida < 1 || opcionElegida >3)
+                {
+                    Textos.seleccionarColorFuente(12);
+                    Textos.textoCentrado("ERROR INGRESE UNA OPCION VALIDA");
+                    Console.ResetColor();
+                }else
+                {
+                    sale = true;
+                }
+            } while(!sale);
+
+            return opcionElegida;
+        }
     }
 
-    public class ImagenesGameplay
+    public static class ImagenesGameplay
     {
-        private int nroJugador;
-        private string[] worms;
-        public ImagenesGameplay(int nroJugador)
-        {
-            this.nroJugador = nroJugador;
-            worms = [
-            @"              ▓▓▓▓▓▓▓▓▓▓▓▓                                                      ▓▓▓▓▓▓▓▓▓▓▓▓          ",
-            @"             ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓                                                  ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓         ",
-            @"            ▓▓▒▒▒▒▒▓███▒▓██▓▓                                                ▓▓██▓▒███▓▒▒▒▒▒▓▓        ",
-            @"            ▓▓▒▒▒▒▒░░░░▒░░▒▓▓                                                ▓▓▒░░▒░  ░▒▒▒▒▒▓▓        ",
-            @"            ▓▓▒▒▒▒░ ▒▓░░▒▓░▓▓                                                 ▓░▓▒░░▓▒░░▒▒▒▒▓▓        ",
-            @"            ▓▓▒▒▒▒░░██░░██▓▓                                                  ▓▓██░░██░░▒▒▒▒▓▓        ",
-            @"             ▓▓▒▒▒▒░░░░░▒▓▓                                                    ▓▓▒░░░░░▒▒▒▒▓▓         ",
-            @"              ▓▒▒▒▒▒░░▒░▓▓                                                      ▓▓░▒░░▒▒▒▒▒▓          ",
-            @"          ▓▓▓▓▓▒▒▒▒▒▒▒▒▒▓▓                                                      ▓▓▒▒▒▒▒▒▒▒▒▓▓▓▓▓      ",
-            @"         ▓▓▒▒▒▒▓▒▒▒▒▓▓▓▓▓                                                        ▓▓▓▓▓▒▒▒▒▓▒▒▒▒▓▓     ",
-            @"        ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓    ",
-            @"      ▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓  ",
-            @"     ▓▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▓▓                                                          ▓▓▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓▓ ",
-            @"      ▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓▓                                                            ▓▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓  ",
-            @"OPCIONES COMBATE"
+        private static string[] worms  =[
+            @"              ▓▓▓▓▓▓▓▓▓▓▓▓                                                                        ▓▓▓▓▓▓▓▓▓▓▓▓          ",
+            @"             ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓                                                                    ▓▓▒▒▒▒▒▒▒▒▒▒▒▓▓         ",
+            @"            ▓▓▒▒▒▒▒▓███▒▓██▓▓                                                                  ▓▓██▓▒███▓▒▒▒▒▒▓▓        ",
+            @"            ▓▓▒▒▒▒▒░░░░▒░░▒▓▓                                                                  ▓▓▒░░▒░  ░▒▒▒▒▒▓▓        ",
+            @"            ▓▓▒▒▒▒░ ▒▓░░▒▓░▓▓                                                                   ▓░▓▒░░▓▒░░▒▒▒▒▓▓        ",
+            @"            ▓▓▒▒▒▒░░██░░██▓▓                                                                    ▓▓██░░██░░▒▒▒▒▓▓        ",
+            @"             ▓▓▒▒▒▒░░░░░▒▓▓                                                                      ▓▓▒░░░░░▒▒▒▒▓▓         ",
+            @"              ▓▒▒▒▒▒░░▒░▓▓                                                                        ▓▓░▒░░▒▒▒▒▒▓          ",
+            @"          ▓▓▓▓▓▒▒▒▒▒▒▒▒▒▓▓                                                                        ▓▓▒▒▒▒▒▒▒▒▒▓▓▓▓▓      ",
+            @"         ▓▓▒▒▒▒▓▒▒▒▒▓▓▓▓▓                                                                          ▓▓▓▓▓▒▒▒▒▓▒▒▒▒▓▓     ",
+            @"        ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                                            ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓    ",
+            @"      ▓▓▓▓▒▒▒▒▒▒▒▒▒▒▒▒▓▓                                                                            ▓▓▒▒▒▒▒▒▒▒▒▒▒▒▒▓▓▓  ",
+            @"     ▓▓▒▒▒▒▒▓▓▒▒▒▒▒▒▒▒▓▓                                                                            ▓▓▒▒▒▒▒▒▒▒▓▓▒▒▒▒▒▓▓ ",
+            @"      ▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓▓                                                                              ▓▓▓▒▒▒▓▓▓▓▓▓▒▒▒▓▓  "
             ];
-        }
-        public int NroJugador { get => nroJugador; set => nroJugador = value; }
-        public string[] Worms { get => worms; set => worms = value; }
+        
+        public static string[] Worms { get => worms; set => worms = value; }
     }
 }

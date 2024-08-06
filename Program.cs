@@ -16,20 +16,20 @@ Console.OutputEncoding = Encoding.Unicode;  // para caracteres UTF-16 (caractere
 NombresPersonajes listaNombresPersonajes = new NombresPersonajes();
 listaNombresPersonajes = await API.Deserializar(); //obtengo de la API mi objeto con la lista de nombres
 FabricaDePersonajes FabricaDePersonajes = new FabricaDePersonajes(listaNombresPersonajes.Names); // instanceo la clase de fabrica para poder operar
-Personaje[] personajes = new Personaje[CANTIDAD_PERSONAJES_CREAR];
+List<Personaje> personajes = new List<Personaje>();
 
 var tituloMenuPrincipal = Textos.TituloPrincipal;
 string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "CONTINUAR PARTIDA", "SALIR DEL JUEGO"};
 Menu menuPrincipal = new Menu(tituloMenuPrincipal, opcionesMenuPrincipal);
 //TITULO
 Console.Clear();
-int opcionElegida = menuPrincipal.Inicializar(12,0);
+int opcionElegida = menuPrincipal.InicializarMenuStandar(12,0);
 
 
 
-for (int i = 0; i < 10; i++)
+for (int i = 0; i < CANTIDAD_PERSONAJES_CREAR; i++)
 {
-   personajes[i] = FabricaDePersonajes.CrearPersonaje(i);
+   personajes.Add(FabricaDePersonajes.CrearPersonaje(i));  
 }
 if(opcionElegida == 1)
 {
