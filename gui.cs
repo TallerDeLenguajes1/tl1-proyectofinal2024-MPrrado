@@ -129,9 +129,9 @@ namespace Gui
             return indiceOpcion;
         }
 
-        public void MostrarOpcionesCombate(int colorTitulo)
+        public void MostrarOpcionesCombate()
         {
-            Console.ForegroundColor = (ConsoleColor)colorTitulo;
+            Console.ForegroundColor = ConsoleColor.Blue;
             Textos.textoCentrado(titulo);
             Console.ResetColor();
             string decorador=" ";
@@ -151,17 +151,17 @@ namespace Gui
                         decorador = "💨";
                         break;
                 }
-                Textos.textoCentrado($"[{indiceOpcion}]]{decorador} <<{opciones[i]}>>");
+                Textos.textoCentrado($"[{indiceOpcion}]{decorador} <<{opciones[i]}>>");
             }
         }
 
-        public int InicializarMenuCombate(int colorTitulo)
+        public int InicializarMenuCombate()
         {
             bool sale = false;
             int opcionElegida;
             do
             {
-                MostrarOpcionesCombate(colorTitulo);
+                MostrarOpcionesCombate();
                 System.Console.WriteLine("SELECCIONE SU ACCION: ");
                 bool parseo = int.TryParse(Console.ReadLine(), out opcionElegida);
                 if(!parseo || opcionElegida < 1 || opcionElegida >3)
