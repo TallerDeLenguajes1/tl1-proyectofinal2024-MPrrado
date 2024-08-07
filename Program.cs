@@ -21,6 +21,11 @@ List<Personaje> personajes = new List<Personaje>();
 var tituloMenuPrincipal = Textos.TituloPrincipal;
 string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "CONTINUAR PARTIDA", "SALIR DEL JUEGO"};
 Menu menuPrincipal = new Menu(tituloMenuPrincipal, opcionesMenuPrincipal);
+
+//MIS VARIABLES
+Random random = new Random();
+
+
 //TITULO
 Console.Clear();
 int opcionElegida = menuPrincipal.InicializarMenuStandar(12)+1;
@@ -31,24 +36,42 @@ for (int i = 0; i < CANTIDAD_PERSONAJES_CREAR; i++)
 {
    personajes.Add(FabricaDePersonajes.CrearPersonaje(i));  
 }
-if(opcionElegida == 1)
-{
-    Console.Clear();
-    Personaje jugador1 = Batalla.SeleccionPersonaje(1, personajes, CANTIDAD_PERSONAJES_CREAR);
-    Personaje jugador2 = Batalla.SeleccionPersonaje(2, personajes, CANTIDAD_PERSONAJES_CREAR);
-    if(jugador1 == jugador2)
-    {
-        Personaje jugador2Nuevo = new Personaje(jugador2.Datos.Tipo , jugador2.Datos.Nombre, jugador2.Caracteristicas.Ataque, jugador2.Caracteristicas.Armadura, jugador2.Caracteristicas.Salud);
-        Batalla.Combate(jugador1,jugador2Nuevo,0);
-    }else
-    {
-        Batalla.Combate(jugador1,jugador2,0);
-    }
 
+Console.Clear();
+Personaje jugador1;
+Personaje jugador2;
+switch(opcionElegida)
+{
+    case 1:
+        jugador1 = Batalla.SeleccionPersonaje(1, personajes, CANTIDAD_PERSONAJES_CREAR);
+        jugador2 = Batalla.SeleccionPersonaje(2, personajes, CANTIDAD_PERSONAJES_CREAR);
+        IniciarPelea(jugador1, jugador2, opcionElegida);
+        break;
+    case 2:
+        jugador1 = Batalla.SeleccionPersonaje(1, personajes, CANTIDAD_PERSONAJES_CREAR);
+        jugador2 = personajes[random.Next(0,CANTIDAD_PERSONAJES_CREAR)];
+        IniciarPelea(jugador1, jugador2, opcionElegida);
+        break;
 }
+
+
 
 // API.GuardarEnJson(listaNombresPersonajes);
 Console.ResetColor();
 System.Console.WriteLine("presiona enter para salir....");
 Console.ReadKey(true);
 
+//FUNCIONES
+
+static void IniciarPelea(Personaje jugador1, Personaje jugador2, int tipoCombate)
+{
+    if (jugador1 == jugador2)
+    {
+        Personaje jugador2Nuevo = new Personaje(jugador2.Datos.Tipo, jugador2.Datos.Nombre, jugador2.Caracteristicas.Ataque, jugador2.Caracteristicas.Armadura, jugador2.Caracteristicas.Salud);
+        Batalla.Combate(jugador1, jugador2Nuevo, tipoCombate);
+    }
+    else
+    {
+        Batalla.Combate(jugador1, jugador2, tipoCombate);
+    }
+}
