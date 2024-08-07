@@ -23,7 +23,7 @@ string[] opcionesMenuPrincipal = {"JcJ","JcCPU", "CONTINUAR PARTIDA", "SALIR DEL
 Menu menuPrincipal = new Menu(tituloMenuPrincipal, opcionesMenuPrincipal);
 //TITULO
 Console.Clear();
-int opcionElegida = menuPrincipal.InicializarMenuStandar(12,0);
+int opcionElegida = menuPrincipal.InicializarMenuStandar(12)+1;
 
 
 
@@ -36,7 +36,15 @@ if(opcionElegida == 1)
     Console.Clear();
     Personaje jugador1 = Batalla.SeleccionPersonaje(1, personajes, CANTIDAD_PERSONAJES_CREAR);
     Personaje jugador2 = Batalla.SeleccionPersonaje(2, personajes, CANTIDAD_PERSONAJES_CREAR);
-    Batalla.Combate(jugador1,jugador2,0);
+    if(jugador1 == jugador2)
+    {
+        Personaje jugador2Nuevo = new Personaje(jugador2.Datos.Tipo , jugador2.Datos.Nombre, jugador2.Caracteristicas.Ataque, jugador2.Caracteristicas.Armadura, jugador2.Caracteristicas.Salud);
+        Batalla.Combate(jugador1,jugador2Nuevo,0);
+    }else
+    {
+        Batalla.Combate(jugador1,jugador2,0);
+    }
+
 }
 
 // API.GuardarEnJson(listaNombresPersonajes);
