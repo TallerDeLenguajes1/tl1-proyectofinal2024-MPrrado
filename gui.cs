@@ -23,61 +23,6 @@ namespace Gui
         ];
         public static string[] TituloPrincipal { get => tituloPrincipal; }
         public static string[] GenerandoPersonajes { get => generandoPersonajes; }
-        public static void seleccionarColorFuente(int color)
-        {
-            switch (color)
-                    {
-                        case 0:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 1:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 2:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 3:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 4:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 5:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 6:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 7:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 8:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 9:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 10:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 11:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 12:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 13:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 14:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                        case 15:
-                            Console.ForegroundColor = (ConsoleColor) color;
-                            break;
-                    }
-        }
-        
         public static void textoCentrado(string texto)
         {
             string textoCentrado; //creo mi variable la cual sera el texto centrado
@@ -128,7 +73,7 @@ namespace Gui
         }
         public void MostrarOpcionesStandar(int colorTitulo) //metodo para menu standar interactivo
         {
-            Textos.seleccionarColorFuente(colorTitulo);
+            Console.ForegroundColor = (ConsoleColor)colorTitulo;
             Textos.TextoCentradoArray(tituloArray);
             Console.ResetColor();
             string decorador;
@@ -151,16 +96,13 @@ namespace Gui
             Console.ResetColor();
         }
 
-        public int InicializarMenuStandar(int colorTitulo, int tipoMenu) //color del 0-15, justificacion: [0] centrado [1]: justify left
+        public int InicializarMenuStandar(int colorTitulo) //color del 0-15, justificacion: [0] centrado [1]: justify left
         {
             ConsoleKey tecla; //creamos nuestra variable del tipo ConsoleKey para poder almacenar y luego comparar con la tecla que se presiono
             Console.CursorVisible = false;
             do
             {
-                if(tipoMenu == 0)
-                {
-                    Console.Clear();
-                }
+                Console.Clear();
                 MostrarOpcionesStandar(colorTitulo); //mostramos el menu
 
                 ConsoleKeyInfo teclaPresionada = Console.ReadKey(true); //leemos la tecla presionada
@@ -174,10 +116,10 @@ namespace Gui
                         indiceOpcion = opciones.Length - 1;
                     }
                 }
-                else
+                else if(tecla == ConsoleKey.DownArrow)
                 {
                     indiceOpcion++;
-                    if (indiceOpcion >= opciones.Length)
+                    if (indiceOpcion > opciones.Length-1)
                     {
                         indiceOpcion = 0;
                     }
@@ -189,7 +131,7 @@ namespace Gui
 
         public void MostrarOpcionesCombate(int colorTitulo)
         {
-            Textos.seleccionarColorFuente(colorTitulo);
+            Console.ForegroundColor = (ConsoleColor)colorTitulo;
             Textos.textoCentrado(titulo);
             Console.ResetColor();
             string decorador=" ";
@@ -224,7 +166,7 @@ namespace Gui
                 bool parseo = int.TryParse(Console.ReadLine(), out opcionElegida);
                 if(!parseo || opcionElegida < 1 || opcionElegida >3)
                 {
-                    Textos.seleccionarColorFuente(12);
+                    Console.ForegroundColor = ConsoleColor.Red;
                     Textos.textoCentrado("ERROR INGRESE UNA OPCION VALIDA");
                     Console.ResetColor();
                 }else
