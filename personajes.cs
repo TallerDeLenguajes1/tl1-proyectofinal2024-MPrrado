@@ -14,7 +14,7 @@ namespace Personajes_Y_Estadisticas
         private Caracteristicas caracteristicas;
         private Datos datos;
 
-        public Personaje(Tipo tipo, string nombre, int ataque, int armadura, int salud)
+        public Personaje(Tipo tipo, string nombre, double ataque, double armadura, double salud)
         {
             caracteristicas = new Caracteristicas(ataque, armadura, salud);
             datos = new Datos(tipo, nombre);
@@ -41,20 +41,20 @@ namespace Personajes_Y_Estadisticas
 
     public class Caracteristicas
     {
-        private int ataque;
-        private int armadura;
-        private int salud;
+        private double ataque;
+        private double armadura;
+        private double salud;
 
-        public Caracteristicas(int ataque, int armadura, int salud)
+        public Caracteristicas(double ataque, double armadura, double salud)
         {
             this.ataque = ataque;
             this.armadura = armadura;
             this.salud = salud;
         }
 
-        public int Ataque { get => ataque; }
-        public int Armadura { get => armadura; }
-        public int Salud { get => salud; set => salud = value;}
+        public double Ataque { get => ataque; }
+        public double Armadura { get => armadura; }
+        public double Salud { get => salud; set => salud = value;}
     }
 
     public class FabricaDePersonajes
