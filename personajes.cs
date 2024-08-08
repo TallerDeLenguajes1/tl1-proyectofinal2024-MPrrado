@@ -36,7 +36,6 @@ namespace Personajes_Y_Estadisticas
 
         public Tipo Tipo { get => tipo; }
         public string Nombre { get => nombre; }
-        // private frase celebre con API?
     }
 
     public class Caracteristicas

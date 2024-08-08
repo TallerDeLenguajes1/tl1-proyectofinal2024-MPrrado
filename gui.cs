@@ -96,7 +96,7 @@ namespace Gui
             Console.ResetColor();
         }
 
-        public int InicializarMenuStandar(int colorTitulo) //color del 0-15, justificacion: [0] centrado [1]: justify left
+        public int InicializarMenuStandar(int colorTitulo) //color del 0-15
         {
             ConsoleKey tecla; //creamos nuestra variable del tipo ConsoleKey para poder almacenar y luego comparar con la tecla que se presiono
             Console.CursorVisible = false;
@@ -134,28 +134,15 @@ namespace Gui
             Console.ForegroundColor = ConsoleColor.Blue;
             Textos.textoCentrado(titulo);
             Console.ResetColor();
-            string decorador=" ";
-            int indiceOpcion = 0;
+            int indiceOpcion = 1;
             for (int i = 0; i < opciones.Length; i++)
             {
+                Textos.textoCentrado($"[{indiceOpcion}]<< {opciones[i]}>>");
                 indiceOpcion++;
-                switch(opciones[i])
-                {
-                    case "ATACAR":
-                        decorador = "⚔️";
-                        break;
-                    case "DEFENDER":
-                        decorador = "🛡️";
-                        break;
-                    case "HUIR":
-                        decorador = "💨";
-                        break;
-                }
-                Textos.textoCentrado($"[{indiceOpcion}]{decorador} <<{opciones[i]}>>");
             }
         }
 
-        public int InicializarMenuCombate()
+        public int InicializarMenuCombate(int cantidadOpciones)
         {
             bool sale = false;
             int opcionElegida;
@@ -164,7 +151,7 @@ namespace Gui
                 MostrarOpcionesCombate();
                 System.Console.WriteLine("SELECCIONE SU ACCION: ");
                 bool parseo = int.TryParse(Console.ReadLine(), out opcionElegida);
-                if(!parseo || opcionElegida < 1 || opcionElegida >3)
+                if(!parseo || opcionElegida < 1 || opcionElegida >cantidadOpciones)
                 {
                     Console.ForegroundColor = ConsoleColor.Red;
                     Textos.textoCentrado("ERROR INGRESE UNA OPCION VALIDA");
