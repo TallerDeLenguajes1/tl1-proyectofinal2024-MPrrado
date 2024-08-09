@@ -11,7 +11,7 @@ namespace LogicaBatalla
     {
         public static Personaje SeleccionPersonaje(int nroJugador, List<Personaje> personajes, int cantidadPersonajes)
         {
-            Personaje elegido;
+            Personaje personajeElegido;
             string[] titulo = { $"------->  ⚔️  ⚔️  SELECCIONAR PERSONAJE JUGADOR {nroJugador}  ⚔️  ⚔️  <-------" };
             string[] personajesSeleccionables = new string[cantidadPersonajes]; ;
             for (int i = 0; i < cantidadPersonajes; i++)
@@ -19,11 +19,11 @@ namespace LogicaBatalla
                 personajesSeleccionables[i] = personajes[i].Datos.Nombre + " " + personajes[i].Datos.Tipo + $"(💪 {personajes[i].Caracteristicas.Ataque} 🛡️  {personajes[i].Caracteristicas.Armadura})";
             }
             Menu menuSeleccionPersonaje = new Menu(titulo, personajesSeleccionables);
-            int personajeElegido = menuSeleccionPersonaje.InicializarMenuStandar(12);
-            elegido = personajes[personajeElegido];
-            return elegido;
+            int IndicePersonajeElegido = menuSeleccionPersonaje.InicializarMenuStandar(12);
+            personajeElegido = personajes[IndicePersonajeElegido];
+            return personajeElegido;
         }
-        public static bool Combate(Personaje personaje1, Personaje personaje2, int formaCombate, string escenarioDePelea)
+        public static void Combate(Personaje personaje1, Personaje personaje2, int formaCombate, string escenarioDePelea)
         {
             // Implementación del combate
 
@@ -31,12 +31,21 @@ namespace LogicaBatalla
             Console.Clear();
             string nroJugador = "1";
             string tituloMenu = "-----OPCIONES COMBATE-----";
-            string[] opcionesMenuCombate = {"⚔️ ATACAR", "❤️‍🩹 CURAR", "💨 HUIR" , "💾 SALIR Y GUARDAR"};
+            string[] opcionesMenuCombate=[];
+            if(formaCombate == 1)
+            {
+                opcionesMenuCombate = ["⚔️ ATACAR", "❤️‍🩹 CURAR", "💨 HUIR"];
+            }
+            else if(formaCombate == 2)
+            {
+                opcionesMenuCombate = ["⚔️ ATACAR", "❤️‍🩹 CURAR", "💨 HUIR" , "💾 SALIR Y GUARDAR"];
+            }
             Menu menuCombateJcJ = new Menu(tituloMenu, opcionesMenuCombate);
             bool huye1 = false;
             bool huye2 = false;
             const int MULTIPLICADOR_DAMAGE_BASE = 3;
             bool guardado = false;
+            bool primeraVuelta = false;
             int esquiva;
             double factorAleatorioAtaque;
             Random random = new Random();
@@ -44,6 +53,7 @@ namespace LogicaBatalla
             //constantes para el guardado del juego
             const string NOMBRE_ARCHIVO_PERSONAJE_1 = "datosPersonaje1.json";
             const string NOMBRE_ARCHIVO_PERSONAJE_2 = "datosPersonaje2.json";
+            const string NOMBRE_ARCHIVO_ESCENARIO = "datosEscenario.json";
         
             Textos.ImprimirTextoArray(ImagenesGameplay.Worms);
 
@@ -51,54 +61,77 @@ namespace LogicaBatalla
             {
                 do
                 {
-                    PresentarDatosCombate(personaje1, personaje2, escenarioDePelea, nroJugador, out esquiva, out factorAleatorioAtaque, random, NOMBRE_ARCHIVO_PERSONAJE_1, NOMBRE_ARCHIVO_PERSONAJE_2);
+                    
+                    PresentarDatosCombate(personaje1, personaje2, escenarioDePelea, nroJugador, out esquiva, out factorAleatorioAtaque, random, formaCombate);
                     int opcionElegida = menuCombateJcJ.InicializarMenuCombate(opcionesMenuCombate.Length);
 
                     if (nroJugador == "1")
                     {
                         EjecutarAccionPelea(personaje1, personaje2, ref nroJugador, ref huye1, ref huye2, MULTIPLICADOR_DAMAGE_BASE, esquiva, factorAleatorioAtaque, opcionElegida, ref guardado, formaCombate);
-                        DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate);
                     }
                     else if (nroJugador == "2")
                     {
                         EjecutarAccionPelea(personaje2, personaje1, ref nroJugador, ref huye1, ref huye2, MULTIPLICADOR_DAMAGE_BASE, esquiva, factorAleatorioAtaque, opcionElegida, ref guardado, formaCombate);
-                        DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate);
                     }
                     Console.ResetColor();
                 } while (personaje1.Caracteristicas.Salud > 0 && personaje2.Caracteristicas.Salud > 0 && !huye1 && !huye2 &&!guardado);
-
             }
             else if (formaCombate == 2) //formaCombate = 2 => JcCPU
             {
                 do
                 {
-                    PresentarDatosCombate(personaje1, personaje2, escenarioDePelea, nroJugador, out esquiva, out factorAleatorioAtaque, random, NOMBRE_ARCHIVO_PERSONAJE_1, NOMBRE_ARCHIVO_PERSONAJE_2);
+                    if(!huye1 && !huye2 && !primeraVuelta)
+                    {
+                        Persistencia.GuardarPartida(personaje1,personaje2, NOMBRE_ARCHIVO_PERSONAJE_1, NOMBRE_ARCHIVO_PERSONAJE_2,NOMBRE_ARCHIVO_ESCENARIO,escenarioDePelea);
+                        primeraVuelta = true;
+                    }
+
+                    PresentarDatosCombate(personaje1, personaje2, escenarioDePelea, nroJugador, out esquiva, out factorAleatorioAtaque, random, formaCombate);
 
                     if (nroJugador == "1")
                     {
                         int opcionElegida = menuCombateJcJ.InicializarMenuCombate(opcionesMenuCombate.Length);
                         EjecutarAccionPelea(personaje1, personaje2, ref nroJugador, ref huye1, ref huye2, MULTIPLICADOR_DAMAGE_BASE, esquiva, factorAleatorioAtaque, opcionElegida, ref guardado, formaCombate);
-                        DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate);
                     }
-                    else
+                    else if(nroJugador == "CPU") 
                     {
-                        EjecutarAccionPelea(personaje2, personaje1, ref nroJugador, ref huye1, ref huye2, MULTIPLICADOR_DAMAGE_BASE, esquiva, factorAleatorioAtaque, OpcionCpu(), ref guardado, formaCombate);
-                        DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate);
+                        int huyeCPU = random.Next(1,101);
+                        int opcionCPU;
+                        if (huyeCPU%7 == 0)
+                        {
+                            opcionCPU = 3;
+                        }
+                        else
+                        {
+                            opcionCPU = ObtenerOpcionCpu();
+                        }
+                        EjecutarAccionPelea(personaje2, personaje1, ref nroJugador, ref huye1, ref huye2, MULTIPLICADOR_DAMAGE_BASE, esquiva, factorAleatorioAtaque, opcionCPU, ref guardado, formaCombate);
+                    }
+
+                    if(!huye1 && !huye2 && personaje1.Caracteristicas.Salud > 0 && personaje2.Caracteristicas.Salud > 0)
+                    {
+                        Persistencia.GuardarPartida(personaje1,personaje2, NOMBRE_ARCHIVO_PERSONAJE_1, NOMBRE_ARCHIVO_PERSONAJE_2,NOMBRE_ARCHIVO_ESCENARIO,escenarioDePelea);
                     }
                     Console.ResetColor();
+
                 } while (personaje1.Caracteristicas.Salud > 0 && personaje2.Caracteristicas.Salud > 0 && !huye1 && !huye2 && !guardado);
             }
-            return guardado;
+            if(!guardado)
+            {
+                DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate);
+                Persistencia.EliminarDatosPeleaTerminada(NOMBRE_ARCHIVO_PERSONAJE_1,NOMBRE_ARCHIVO_PERSONAJE_2,NOMBRE_ARCHIVO_ESCENARIO);
+                personaje1.Caracteristicas.Salud = 100;
+                personaje2.Caracteristicas.Salud = 100;
+            }
         }
-        static void PresentarDatosCombate(Personaje personaje1, Personaje personaje2, string escenarioDePelea, string nroJugador, out int esquiva, out double factorAleatorioAtaque, Random random, string NOMBRE_ARCHIVO_PERSONAJE_1, string NOMBRE_ARCHIVO_PERSONAJE_2)
+        static void PresentarDatosCombate(Personaje personaje1, Personaje personaje2, string escenarioDePelea, string nroJugador, out int esquiva, out double factorAleatorioAtaque, Random random,int formaCombate)
         {
-            Persistencia.GuardarPartida(personaje1, NOMBRE_ARCHIVO_PERSONAJE_1);
-            Persistencia.GuardarPartida(personaje2, NOMBRE_ARCHIVO_PERSONAJE_2);
             System.Console.WriteLine();
             System.Console.WriteLine();
             Console.ForegroundColor = ConsoleColor.Blue;
             Textos.textoCentrado($"--------ESCENARIO DE PELEA: {escenarioDePelea}--------");
             bool condicion = nroJugador == "CPU" ? true : false;
+            bool condicion2 = formaCombate == 2 ? true:false;
             Console.ForegroundColor = ConsoleColor.Magenta;
             Textos.textoCentrado($"--------TURNO {(condicion ? nroJugador : $"JUGADOR {nroJugador}")}--------"); //utilizacion del operador ternario a partir de una condicion para determinar el mensaje adecuado segun el turno del jugador correspondiente
             System.Console.WriteLine();
@@ -107,7 +140,7 @@ namespace LogicaBatalla
             personaje1.Caracteristicas.Salud = Math.Round(personaje1.Caracteristicas.Salud, 2);
             personaje2.Caracteristicas.Salud = Math.Round(personaje2.Caracteristicas.Salud, 2);
             Console.ResetColor();
-            Console.WriteLine($"\tJUGADOR 1: {personaje1.Datos.Nombre} (  ❤️ :{personaje1.Caracteristicas.Salud}   🗡️ :{personaje1.Caracteristicas.Ataque}   🪖  :{personaje1.Caracteristicas.Armadura}) ---------- {(condicion ? nroJugador : $"JUGADOR 2")}: {personaje2.Datos.Nombre} (  ❤️ :{personaje2.Caracteristicas.Salud}  🗡️ :{personaje2.Caracteristicas.Ataque}   🪖 :{personaje2.Caracteristicas.Armadura})");
+            Console.WriteLine($"\tJUGADOR 1: {personaje1.Datos.Nombre} (  ❤️ :{personaje1.Caracteristicas.Salud}   🗡️ :{personaje1.Caracteristicas.Ataque}   🪖  :{personaje1.Caracteristicas.Armadura}) ---------- {(condicion2 ? "CPU" : $"JUGADOR 2")}: {personaje2.Datos.Nombre} (  ❤️ :{personaje2.Caracteristicas.Salud}  🗡️ :{personaje2.Caracteristicas.Ataque}   🪖 :{personaje2.Caracteristicas.Armadura})");
             System.Console.WriteLine();
             esquiva = random.Next(1, 101);
             factorAleatorioAtaque = (double)random.Next(80, 101) / 100;
@@ -115,8 +148,7 @@ namespace LogicaBatalla
 
         static void EjecutarAccionPelea(Personaje personajeAtacante, Personaje personajeDefensor, ref string nroJugador, ref bool huye1, ref bool huye2, int MULTIPLICADOR_DAÑO_BASE, int esquiva, double factorAleatorioAtaque, int opcionElegida, ref bool guardado, int formaCombate) //genero una fucion local para encapsular el comportamiento a ejecutarse segun la accion elegida por el jugador para la batalla
         {
-            int opcion= 0;
-
+            int delay = 2000;
             switch (opcionElegida)
             {
                 case 1: //Atacar
@@ -129,25 +161,28 @@ namespace LogicaBatalla
                     if (nroJugador == "1")
                     {
                         huye1 = Huir(nroJugador);
+                        Thread.Sleep(delay);
                     }
                     else if (nroJugador == "2" || nroJugador == "CPU")
                     {
                         huye2 = Huir(nroJugador);
+                        Thread.Sleep(delay);
                     }
                     break;
                 case 4:
                     string[] tituloMenuGuardado = {"SEGURO DESEA SALIR Y GUARDAR?"};
                     string [] opcionesMenuGuardado = {"SI", "NO"};
                     Menu menuGuardado = new Menu(tituloMenuGuardado,opcionesMenuGuardado);
-                    opcion = menuGuardado.InicializarMenuStandar(10)+1;
+                    int opcion = menuGuardado.InicializarMenuStandar(10)+1;
                     if(opcion == 1)
                     {
                         guardado = true;
                         Console.ForegroundColor = ConsoleColor.Cyan;
-                        System.Console.WriteLine($"\t\tJUGADOR {nroJugador} GUARDA LA PARTIDA...");
+                        System.Console.WriteLine($"\t\tJUGADOR {nroJugador} GUARDA LA PARTIDA");
+                        System.Console.WriteLine($"\t\tSaliendo del combate...");
                         System.Console.WriteLine();
                         Console.ResetColor();
-                        Thread.Sleep(3000);
+                        Thread.Sleep(delay);
                     }
                     Console.Clear();
                     break;
@@ -267,7 +302,7 @@ namespace LogicaBatalla
 
         }
 
-        static int OpcionCpu()
+        static int ObtenerOpcionCpu()
         {
             int[] arreglo = new int[100];
             Random random = new Random();
@@ -275,7 +310,7 @@ namespace LogicaBatalla
             for (int i = 0; i < arreglo.Length; i++)
             {
                 // Generamos un número aleatorio entre 1 y 3 (ambos inclusive)
-                int valor = random.Next(1, 4);
+                int valor = random.Next(1, 3);
                 arreglo[i] = valor;
             }
 
