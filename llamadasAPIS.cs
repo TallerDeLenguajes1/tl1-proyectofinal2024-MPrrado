@@ -34,7 +34,7 @@ namespace APIS
                         url = "https://names.ironarachne.com/race/dwarf/female/20";
                         break;
                 };
-            }else if(tipoApi == 2)
+            }else if(tipoApi == 2) //Genero el escenario a traves de los parametros adecuados de la api
             {
                 url = "https://names.ironarachne.com/race/dwarf/town/10";
             }
