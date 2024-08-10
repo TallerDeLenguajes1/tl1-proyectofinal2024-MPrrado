@@ -76,7 +76,7 @@ namespace PersistenciaDelJuego
                     string datosEscenario = File.ReadAllText(archivoEscenario);
                     Personaje personaje1 = JsonSerializer.Deserialize<Personaje>(datosPersonaje1);
                     Personaje personaje2 = JsonSerializer.Deserialize<Personaje>(datosPersonaje2);
-                    Batalla.Combate(personaje1, personaje2, ConstData.FORMA_COMBATE_PARTIDA_CARGADA, datosEscenario);
+                    Batalla.Combate(personaje1, personaje2, ConstData.FORMA_COMBATE_PARTIDA_CARGADA, datosEscenario,2,1);
 
                 }
             }

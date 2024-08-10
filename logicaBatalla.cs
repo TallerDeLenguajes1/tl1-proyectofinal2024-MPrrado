@@ -36,7 +36,7 @@ namespace LogicaBatalla
             }
             return personajeElegido;
         }
-        public static void Combate(Personaje personaje1, Personaje personaje2, int formaCombate, string escenarioDePelea)
+        public static bool Combate(Personaje personaje1, Personaje personaje2, int formaCombate, string escenarioDePelea, int opcionElegidaMenuPrincipal, int cantidadRondasTorneo)
         {
             // Implementación del combate
 
@@ -122,13 +122,14 @@ namespace LogicaBatalla
 
                 } while (personaje1.Caracteristicas.Salud > 0 && personaje2.Caracteristicas.Salud > 0 && !huye1 && !huye2 && !guardado);
             }
-            DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate, guardado);
+            DeterminarGanador(personaje1, personaje2, huye1, huye2, formaCombate, guardado, opcionElegidaMenuPrincipal, cantidadRondasTorneo);
             if (!guardado && formaCombate == 2)
             {
                 Persistencia.EliminarDatosPeleaTerminada();
                 personaje1.Caracteristicas.Salud = 100;
                 personaje2.Caracteristicas.Salud = 100;
             }
+            return huye1;
         }
         static void PresentarDatosCombate(Personaje personaje1, Personaje personaje2, string escenarioDePelea, out int esquiva, out double factorAleatorioAtaque, Random random, int formaCombate)
         {
@@ -293,7 +294,7 @@ namespace LogicaBatalla
             return huye;
         }
 
-        static void DeterminarGanador(Personaje personaje1, Personaje personaje2, bool huye1, bool huye2, int formaCombate, bool guardado)
+        static void DeterminarGanador(Personaje personaje1, Personaje personaje2, bool huye1, bool huye2, int formaCombate, bool guardado, int opcionElegidaMenuPrincipal, int cantidadRondasRestantes)
         {
             Console.ForegroundColor = ConsoleColor.Yellow;
 
@@ -312,11 +313,16 @@ namespace LogicaBatalla
                     Textos.textoCentrado("🏆  🏆  -------->JUGADOR CPU GANA LA PELEA!<--------  🏆  🏆");
                 }
             }
-            if(!guardado) 
+            Thread.Sleep(ConstData.DELAY2000);
+            if(!guardado && opcionElegidaMenuPrincipal != 3 || cantidadRondasRestantes == 1 || huye1)  
             {
-                Thread.Sleep(ConstData.DELAY2000);
                 Console.ForegroundColor = ConsoleColor.Green;
                 Textos.textoCentrado("-------Regresando al Menú Princial-------");
+                Thread.Sleep(ConstData.DELAY2000);
+            }else if(opcionElegidaMenuPrincipal == 3 && cantidadRondasRestantes > 1 && !huye1)
+            {
+                Console.ForegroundColor = ConsoleColor.Green;
+                Textos.textoCentrado("-------AVANZANDO A LA SIGUIENTE RONDA-------");
                 Thread.Sleep(ConstData.DELAY2000);
             }
             Console.ResetColor();
