@@ -1,3 +1,5 @@
+using System.Collections.Concurrent;
+using System.Text.Json.Serialization;
 using APIS;
 
 namespace Personajes_Y_Estadisticas
@@ -20,7 +22,14 @@ namespace Personajes_Y_Estadisticas
             datos = new Datos(tipo, nombre);
         }
 
-        public Caracteristicas Caracteristicas { get => caracteristicas; }
+        [JsonConstructor] //IMPORTANTISIMO PARA DETERMINAR A LA HORA DE LA DESERIALIZACION CUAL ES EL CONSTRUCTOR A USAR
+        private Personaje(Caracteristicas Caracteristicas, Datos Datos)
+        {
+            caracteristicas = new Caracteristicas(Caracteristicas.Ataque, Caracteristicas.Armadura, Caracteristicas.Salud);
+            datos = new Datos(Datos.Tipo, Datos.Nombre);
+        }
+
+        public Caracteristicas Caracteristicas { get => caracteristicas;}
         public Datos Datos { get => datos; }
     }
 
@@ -53,7 +62,7 @@ namespace Personajes_Y_Estadisticas
 
         public double Ataque { get => ataque; }
         public double Armadura { get => armadura; }
-        public double Salud { get => salud; set => salud = value;}
+        public double Salud { get => salud; set => salud = value; }
     }
 
     public class FabricaDePersonajes
