@@ -21,6 +21,7 @@ namespace Constantes
 
         //CONSTANTES logicaBatalla.cs
         public const int MULTIPLICADOR_DAMAGE_BASE = 3;
+        public const int ENTERO_DERTERMINAR_HUYE_CPU = 37;
 
 
         //CONSTANTES delay

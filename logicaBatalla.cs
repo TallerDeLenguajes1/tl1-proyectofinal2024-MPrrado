@@ -103,7 +103,7 @@ namespace LogicaBatalla
                     {
                         int huyeCPU = random.Next(1, 101);
                         int opcionCPU;
-                        if (huyeCPU % 7 == 0)
+                        if (huyeCPU % ConstData.ENTERO_DERTERMINAR_HUYE_CPU == 0)
                         {
                             opcionCPU = 3;
                         }
