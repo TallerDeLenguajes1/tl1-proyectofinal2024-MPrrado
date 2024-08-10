@@ -6,7 +6,7 @@
 **_Al estar basada en la saga de videojuegos de **"WOMRS"** tiene mecánicas similares, sin embargo, el sistema de combate esta demasiado sujeto a la suerte y a las probabilidades, es por esto que la decisión a tomar durante el combate es de suma importancia. Te podrás encontrar con distintos personajes donde todos parecieran ser iguales... Pero te sorprenderan cuando uses sus ataques._**
 
 ## MODO DE JUEGO 🕹️
-- **_En el menú principal tendrás dos opciones para elegir **JcJ** y **JcCPU**_**
+- **_En el menú principal tendrás dos opciones para elegir **JcJ** , **JcCPU** y **TORNEOS**_**
 - **_Segun la opción elegida se podran seleccionar 2 personajes (jugador 1 y jugador 2) o solamente 1 (jugador 1)_**
 - **_Una vez seleccionado el/los personaje/s se presentará el escenario de combate con las opciones posibles para el desarrollo del mismo (la opcion de guardar partida solo disponible para **JcCPU**)_**
 - **_Por último y no menos importante **GoodLuck!!!** **Have Fun!!** (GL & HF para los tryhards)_**
