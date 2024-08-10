@@ -25,3 +25,6 @@
     ```
     dotnet run
     ```
+## RECURSOS 🧰
+- **_Se utilizo una API PARAMETRIZADA del usuario de Reddit llamado "dungeonHack". Agradecimientos especiales para su persona_**
+- **_Link API:_**[🔗](https://names.ironarachne.com/)
