@@ -8,7 +8,9 @@
 ## Get latest from https://github.com/github/gitignore/blob/main/VisualStudio.gitignore
 
 #IGNORES MIOS
-/json_src
+json_src/datosPersonaje1.json
+json_src/datosPersonaje2.json
+json_src/datosEscenario.txt
 # User-specific files
 *.rsuser
 *.suo
